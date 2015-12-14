@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="rmd_custom_style_joe.css" type="text/css" />
+</head>
+<body>
+<p><link rel="stylesheet" href="rmd_custom_style.css" /></p>
+<h1 id="gemm-bootstrap-metric-coefficients">GeMM Bootstrap Metric Coefficients</h1>
+<p><em>Joe Tidwell, Last Updated: Fri Feb 28 02:10:29 2014</em></p>
+<h2 id="bootstrap-code">Bootstrap Code</h2>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(foreach)
+<span class="kw">library</span>(gemmR)
+<span class="kw">library</span>(MASS)
+<span class="kw">library</span>(arm)
+<span class="kw">library</span>(<span class="st">&quot;doMC&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)
+<span class="kw">library</span>(<span class="st">&quot;multicore&quot;</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)
+<span class="kw">registerDoMC</span>(multicore:::<span class="kw">detectCores</span>() -<span class="st"> </span><span class="dv">2</span>)  <span class="co"># use all cores minus 2</span>
+
+bootGemm &lt;-<span class="st"> </span>function(reps, model, mydata) {
+    out &lt;-<span class="st"> </span><span class="kw">foreach</span>(<span class="dt">i =</span> <span class="dv">1</span>:reps) %dopar%<span class="st"> </span>{
+        boot.data &lt;-<span class="st"> </span>mydata[<span class="kw">sample</span>(<span class="dv">1</span>:<span class="kw">nrow</span>(mydata), <span class="dt">replace =</span> <span class="ot">TRUE</span>), ]
+        gfit &lt;-<span class="st"> </span><span class="kw">gemm</span>(model, <span class="dt">data =</span> boot.data, <span class="dt">n.beta =</span> <span class="dv">1000</span>, <span class="dt">n.chains =</span> <span class="dv">1</span>, <span class="dt">fit.metric =</span> <span class="st">&quot;tau&quot;</span>)
+        scale.coef &lt;-<span class="st"> </span><span class="kw">coef</span>(<span class="kw">lm</span>(boot.data[, <span class="dv">1</span>] ~<span class="st"> </span>gfit$fitted.values))
+        <span class="kw">c</span>(scale.coef[<span class="dv">1</span>], <span class="kw">coef</span>(gfit) *<span class="st"> </span>scale.coef[<span class="dv">2</span>], <span class="kw">coef</span>(<span class="kw">lm</span>(model, boot.data)))
+    }
+    out &lt;-<span class="st"> </span><span class="kw">do.call</span>(rbind, out)
+    coef.ests &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="st">`</span><span class="dt">&lt;U+03BC&gt;</span><span class="st">`</span> =<span class="st"> </span><span class="kw">apply</span>(out, <span class="dv">2</span>, mean), <span class="st">`</span><span class="dt">&lt;U+03C3&gt; (SE)</span><span class="st">`</span> =<span class="st"> </span><span class="kw">apply</span>(out, 
+        <span class="dv">2</span>, sd), <span class="kw">apply</span>(out, <span class="dv">2</span>, quantile, <span class="kw">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)))
+    <span class="kw">return</span>(<span class="kw">list</span>(<span class="dt">coefs.boot =</span> coef.ests, <span class="dt">data.boot =</span> out))
+}
+
+#### Fake Data
+Sigma &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="dt">nrow =</span> <span class="dv">3</span>)
+
+mu &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">5</span>, <span class="dv">8</span>)
+mydata.fake &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="kw">mvrnorm</span>(<span class="dv">100</span>, mu, Sigma))
+model.fake &lt;-<span class="st"> </span>X1 ~<span class="st"> </span>X2 +<span class="st"> </span>X3
+
+#### COH Data
+coh &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;~/Dropbox/org/projects/Dougherty/OCLO/R/henry2009.csv&quot;</span>)
+coh &lt;-<span class="st"> </span>coh[, <span class="kw">c</span>(<span class="st">&quot;murderrate&quot;</span>, <span class="st">&quot;gini_usethis&quot;</span>, <span class="st">&quot;percent_pastures&quot;</span>, <span class="st">&quot;GNPpercapita&quot;</span>)]
+<span class="kw">names</span>(coh) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;homicide&quot;</span>, <span class="st">&quot;gini&quot;</span>, <span class="st">&quot;pasture&quot;</span>, <span class="st">&quot;GNP&quot;</span>)
+model.coh &lt;-<span class="st"> </span>homicide ~<span class="st"> </span>gini +<span class="st"> </span>pasture +<span class="st"> </span>GNP
+
+#### Bootstraps
+reps &lt;-<span class="st"> </span><span class="dv">1000</span>
+lm.fake &lt;-<span class="st"> </span><span class="kw">lm</span>(model.fake, mydata.fake)
+out.fake &lt;-<span class="st"> </span><span class="kw">bootGemm</span>(reps, model.fake, mydata.fake)
+lm.coh &lt;-<span class="st"> </span><span class="kw">lm</span>(model.coh, coh)
+out.coh &lt;-<span class="st"> </span><span class="kw">bootGemm</span>(reps, model.coh, coh)</code></pre>
+<h2 id="results">Results</h2>
+<h3 id="fake-data">Fake Data</h3>
+<h4 id="regression">Regression</h4>
+<p><img src="tab1.png" style="width: 400px"></p>
+<h4 id="bootstrap-regression">Bootstrap Regression</h4>
+<p><img src="tab3.png" style="width: 300px"></p>
+<h4 id="bootstrap-gemm">Bootstrap GeMM</h4>
+<p><img src="tab2.png" style="width: 300px"></p>
+<h3 id="culture-of-honor-data">Culture of Honor Data</h3>
+<h4 id="regression-1">Regression</h4>
+<p><img src="tab4.png" style="width: 400px"></p>
+<h4 id="bootstrap-regression-1">Bootstrap Regression</h4>
+<p><img src="tab6.png" style="width: 300px"></p>
+<h4 id="bootstrap-gemm-1">Bootstrap GeMM</h4>
+<p><img src="tab5.png" style="width: 300px"></p>
+</body>
+</html>

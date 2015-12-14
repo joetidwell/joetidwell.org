@@ -1,0 +1,348 @@
+/* #MathJax
+==================================================*/
+code.has-jax {font: inherit; font-size: 100%; background: inherit; border: inherit;}
+
+
+/* #Reset & Basics (Inspired by E. Meyers)
+   #Modified by J. Tidwell
+================================================== */
+  html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline; }
+	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+		display: block; }
+	body {
+		line-height: 1; }
+	ol, ul {
+		list-style: none; }
+
+	/* BEGIN Mod to list alignment */
+	ul {
+    	display: table;
+    	list-style-type: circle;
+	}
+
+	li {
+		margin-top: 5px;
+	    display: table-row;
+	}
+
+	li::before {
+	    content: "\25CF \0000a0 \0000a0";
+	    display: table-cell; /* aha! */
+	    text-align: right;
+	}
+	/* END */
+
+	blockquote, q {
+		quotes: none; }
+	blockquote:before, blockquote:after,
+	q:before, q:after {
+		content: '';
+		content: none; }
+
+	figure {
+	    display: inline-block;
+	    margin-bottom: 1.2em;
+	    position: relative;
+	    margin: 1em 0
+	}
+
+	dd {
+	    margin-bottom: 1em
+	}
+
+	dt, th {
+	    font-weight: 700
+	}
+
+
+
+/* #Basic Styles
+================================================== */
+	body {
+		width:750px; 
+		padding: 0 0 20px 45px;
+		background: #fff;
+		font: 13px/18px "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: #222;
+		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+		-webkit-text-size-adjust: 100%;
+		}
+
+
+	th { background-color:#E0E0E0;
+	     border-bottom:1px solid black;
+	     padding:5px;
+	     font-weight:bold;
+	     font-size:1em;}
+
+	td { border:1px solid #999;
+	     padding:5px;
+	     font-size:12px;}
+
+	table{ border-collapse:collapse;
+	       margin:10px 30px;}
+
+	.nowrap {
+    white-space: nowrap;
+	}
+
+	dl {
+		background-color: #ddd;
+		padding: 10px;
+	}
+
+/* #Typography
+================================================== */
+	h1, h2, h3, h4, h5, h6 {
+		color: #181818;
+		font-family: "Georgia", "Times New Roman", serif;
+		font-weight: normal; 
+		margin-top:15px; }
+	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
+	h1 { font-size: 32px; line-height: 46px; margin-bottom: 8px;}
+	h2 { font-size: 28px; line-height: 34px; margin-bottom: 8px; }
+	h3 { font-size: 21px; line-height: 30px; margin-bottom: 4px; }
+	h4 { font-size: 17px; line-height: 24px; margin-bottom: 2px; }
+	h5 { font-size: 14px; line-height: 21px; }
+	h6 { font-size: 12px; line-height: 21px; }
+	.subheader { color: #777; }
+
+	.sum-title {
+		margin-top: 0px;
+		border-bottom: solid 1px #ccc;
+    	border-color: #b8b4a4;
+	}
+
+	.ans {
+		color: red;
+	}
+
+	p { margin: 0 0 10px 0; }
+	p img { margin: 0; }
+	p.lead { font-size: 21px; line-height: 27px; color: #777;  }
+
+	em { font-style: italic; }
+	strong { font-weight: bold; color: #333; }
+	small { font-size: 80%; }
+
+/*	Blockquotes  */
+	blockquote, blockquote p { font-size: 17px; line-height: 24px; color: #777; font-style: italic; }
+	blockquote { margin: 0 0 20px; padding: 9px 20px 0 19px; border-left: 1px solid #ddd; }
+	blockquote cite { display: block; font-size: 12px; color: #555; }
+	blockquote cite:before { content: "\2014 \0020"; }
+	blockquote cite a, blockquote cite a:visited, blockquote cite a:visited { color: #555; }
+
+	hr { border: solid #ddd; border-width: 1px 0 0; clear: both; margin: 10px 0 30px; height: 0; }
+
+	h1, h2, h3 {
+    font-weight: normal;
+    padding-bottom: .4em;
+    padding-top: 1em;
+    color: #514d3f;
+	}
+
+	h1, h2 {
+    border-bottom: solid 1px #ccc;
+    border-color: #b8b4a4;
+	}
+
+	.correction {
+		color: red;
+		font-style: italic;
+		font-weight: bold;
+	}
+
+	.strike {
+		text-decoration: line-through;
+	}
+
+	figcaption {
+	display: block;
+    font-style: italic;
+    text-align: center;
+    background: rgba(0, 0, 0, .9);
+    color: rgba(255, 255, 255, 1);
+    position: absolute;
+    left: 0;
+    width: 98%;
+    padding: 1%;
+    -webkit-transition: all .2s ease-in-out
+	}
+
+	caption {
+    font-style: italic;
+    text-align: center;
+    background: rgba(0, 0, 0, .9);
+    color: rgba(255, 255, 255, 1);
+    left: 0;
+    padding: 1%;
+    -webkit-transition: all .2s ease-in-out
+	}
+
+
+/* #Links
+================================================== */
+	a, a:visited { color: #333; text-decoration: underline; outline: 0; }
+	a:hover, a:focus { color: #000; }
+	p a, p a:visited { line-height: inherit; }
+
+
+/* #Lists
+================================================== */
+	ul, ol { margin: 0 0 10px 10px; }
+	ul { list-style: disc inside; }
+	ol { list-style: decimal; }
+	#ol, ul.square, ul.circle, ul.disc { margin-left: 30px; }
+	#ul.square { list-style: square outside; }
+	#ul.circle { list-style: circle outside; }
+	#ul.disc { list-style: disc outside; }
+	#ul ul, ul ol,
+	#ol ol, ol ul { margin: 4px 0 5px 30px; font-size: 90%;  }
+	#ul ul li, ul ol li,
+	#ol ol li, ol ul li { margin-bottom: 6px; }
+	#li { line-height: 18px; margin-bottom: 12px; }
+	#ul.large li { line-height: 21px; }
+	#li p { line-height: 21px; }
+
+/* #Images
+================================================== */
+
+	img.scale-with-grid {
+		max-width: 100%;
+		height: auto; }
+
+/*
+
+Zenburn style from voldmar.ru (c) Vladimir Epifanov <voldmar@voldmar.ru>
+based on dark.css by Ivan Sagalaev
+
+*/
+
+pre code {
+  display: block; padding: 0.5em;
+  margin-bottom: 0.5em;
+  border: 1px solid #AAA;
+  /*color: #DCDCDC;*/
+}
+
+pre .sourceCode {
+	  background: #DDD;
+
+}
+
+pre .keyword,
+pre .tag,
+pre .django .tag,
+pre .django .keyword,
+pre .css .class,
+pre .css .id,
+pre .lisp .title {
+  color: #E3CEAB;
+}
+
+pre .django .template_tag,
+pre .django .variable,
+pre .django .filter .argument {
+  color: #DCDCDC;
+}
+
+pre .number,
+pre .date {
+  color: #8CD0D3;
+}
+
+pre .dos .envvar,
+pre .dos .stream,
+pre .variable,
+pre .apache .sqbracket {
+  color: #EFDCBC;
+}
+
+pre .dos .flow,
+pre .diff .change,
+pre .python .exception,
+pre .python .built_in,
+pre .literal,
+pre .tex .special {
+  color: #EFEFAF;
+}
+
+pre .diff .chunk,
+pre .ruby .subst {
+  color: #8F8F8F;
+}
+
+pre .dos .keyword,
+pre .python .decorator,
+pre .class .title,
+pre .haskell .label,
+pre .function .title,
+pre .ini .title,
+pre .diff .header,
+pre .ruby .class .parent,
+pre .apache .tag,
+pre .nginx .built_in,
+pre .tex .command,
+pre .input_number {
+    color: #efef8f;
+}
+
+pre .dos .winutils,
+pre .ruby .symbol,
+pre .ruby .symbol .string,
+pre .ruby .symbol .keyword,
+pre .ruby .symbol .keymethods,
+pre .ruby .string,
+pre .ruby .instancevar {
+  color: #DCA3A3;
+}
+
+pre .diff .deletion,
+pre .string,
+pre .tag .value,
+pre .preprocessor,
+pre .built_in,
+pre .sql .aggregate,
+pre .javadoc,
+pre .smalltalk .class,
+pre .smalltalk .localvars,
+pre .smalltalk .array,
+pre .css .rules .value,
+pre .attr_selector,
+pre .pseudo,
+pre .apache .cbracket,
+pre .tex .formula {
+  color: #CC9393;
+}
+
+pre .shebang,
+pre .diff .addition,
+pre .comment,
+pre .java .annotation,
+pre .template_comment,
+pre .pi,
+pre .doctype {
+  color: #7F9F7F;
+}
+
+pre .xml .css,
+pre .xml .javascript,
+pre .xml .vbscript,
+pre .tex .formula {
+  opacity: 0.5;
+}
+
+code {
+background: #fff;
+border: 1px solid #ddd;
+padding: 2px;
+border-radius: 4px;
+color: #222;
+font-family: Inconsolata,Menlo,Monaco,monospace;
+}

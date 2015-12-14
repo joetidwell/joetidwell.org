@@ -1,2 +1,1 @@
-# joetidwell.org
-archive of personal website
+# This is a readme file
