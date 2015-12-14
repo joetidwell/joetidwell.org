@@ -1,0 +1,13 @@
+# Fdb version 3
+["pdflatex"] 1450071010 "/Users/joetidwell/git/joetidwell.org/index.html" "Output/index.pdf" "index" 1450071011
+  "/Users/joetidwell/git/joetidwell.org/index.html" 1450071010 7084 2a1c6333bfaea5998b9912434cee4cc0 ""
+  "/usr/local/texlive/2013/texmf-dist/fonts/map/fontname/texfonts.map" 1272929888 3287 e6b82fe08f5336d4d5ebc73fb1152e87 ""
+  "/usr/local/texlive/2013/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm" 1136768653 1300 63a6111ee6274895728663cf4b4e7e81 ""
+  "/usr/local/texlive/2013/texmf-dist/web2c/texmf.cnf" 1366045088 31707 0953c15448e216a6585e92ee639d2dc2 ""
+  "/usr/local/texlive/2013/texmf-var/web2c/pdftex/pdflatex.fmt" 1369923264 3827029 ad4432546849f432c3154779662c76c8 ""
+  "/usr/local/texlive/2013/texmf.cnf" 1369923207 577 cbc827f6294276973a1952e86e8ad73a ""
+  "Output/index.aux" 1450071010 8 a94a2480d3289e625eea47cd1b285758 ""
+  "index.html" 1450071010 7084 2a1c6333bfaea5998b9912434cee4cc0 ""
+  (generated)
+  "Output/index.log"
+  "Output/index.pdf"

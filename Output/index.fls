@@ -1,0 +1,9 @@
+PWD /Users/joetidwell/git/joetidwell.org
+INPUT /usr/local/texlive/2013/texmf.cnf
+INPUT /usr/local/texlive/2013/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2013/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/joetidwell/git/joetidwell.org/index.html
+OUTPUT Output/index.log
+INPUT /usr/local/texlive/2013/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2013/texmf-dist/fonts/map/fontname/texfonts.map
+INPUT /usr/local/texlive/2013/texmf-dist/fonts/tfm/public/cm/cmcsc10.tfm
